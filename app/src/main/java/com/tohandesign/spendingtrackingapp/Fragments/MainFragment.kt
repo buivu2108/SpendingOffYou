@@ -2,8 +2,6 @@ package com.tohandesign.spendingtrackingapp.Fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +9,7 @@ import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -21,9 +20,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.tohandesign.spendingtrackingapp.Currency.CurrencyConverter
 import com.tohandesign.spendingtrackingapp.Database.SpendingListAdapter
 import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
-import com.tohandesign.spendingtrackingapp.Network.NetworkConnection
 import com.tohandesign.spendingtrackingapp.R
-import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
@@ -45,9 +42,6 @@ class MainFragment : Fragment(), View.OnClickListener {
 
         itemView = inflater.inflate(R.layout.fragment_main, container, false)
 
-
-
-        CheckConnection()
         setName()
         setRecyclerView("TRY")
 
@@ -57,20 +51,6 @@ class MainFragment : Fragment(), View.OnClickListener {
         itemView.sterlinBtn.setOnClickListener(this)
 
         return itemView
-    }
-
-
-    fun CheckConnection() {
-        val networkConnection = NetworkConnection(requireContext())
-        networkConnection.observe(requireActivity(), Observer { isconnected ->
-            if (isconnected) {
-                var currencyApi = CurrencyApi(requireContext())
-                currencyApi.getData()
-                Log.v("MainActivity", "Connected")
-            } else {
-                Log.v("MainActivity", "Not Connected")
-            }
-        })
     }
 
     private fun setRecyclerView(base: String) {
@@ -101,7 +81,7 @@ class MainFragment : Fragment(), View.OnClickListener {
         itemView.btnPurchase.setOnClickListener {
             requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<PurchaseFragment>(R.id.bgLayOutFragment)
+                add<PurchaseFragment>(R.id.bgLayOutFragment).addToBackStack("PurchaseFragment")
             }
         }
     }
@@ -111,11 +91,11 @@ class MainFragment : Fragment(), View.OnClickListener {
         val prefences = requireContext().getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
         val nameText: TextView = itemView.nameText
         if (prefences.getInt(KEY_GENDER, 0) == 1) {
-            nameText.text = "Mr. " + prefences.getString(KEY_NAME, "Yasin")
+            nameText.text = "Mr. " + prefences.getString(KEY_NAME, "A")
         } else if (prefences.getInt(KEY_GENDER, 0) == 2) {
-            nameText.text = "Mrs. " + prefences.getString(KEY_NAME, "Merve")
+            nameText.text = "Mrs. " + prefences.getString(KEY_NAME, "B")
         } else {
-            nameText.text = prefences.getString(KEY_NAME, "Yasin")
+            nameText.text = prefences.getString(KEY_NAME, "A")
         }
         nameText.setOnClickListener { setNameDialog() }
     }

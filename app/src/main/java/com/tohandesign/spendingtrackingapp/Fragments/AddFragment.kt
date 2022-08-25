@@ -16,6 +16,7 @@ import com.tohandesign.spendingtrackingapp.Database.SpendingViewModel
 import com.tohandesign.spendingtrackingapp.R
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
+import kotlinx.coroutines.GlobalScope
 
 
 class AddFragment : Fragment() {
@@ -36,9 +37,16 @@ class AddFragment : Fragment() {
 
 
         itemView.addButton.setOnClickListener {
+            if (itemView.descriptionEditText.text?.isEmpty() == true || itemView.descriptionEditText.text == null || itemView.costEditText.text?.isEmpty() == true || itemView.costEditText.text == null){
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireActivity(),"Please fill in all the information",Toast.LENGTH_LONG)
+                }
+            }else{
             insertDataToDatabase()
+            }
         }
-        imageView.addButton.isEnabled = imageView.descriptionEditText.text?.isNotEmpty() ?: false && imageView.descriptionEditText.text != null && imageView.costEditText.text?.isNotEmpty() ?: false && imageView.costEditText.text != null
+
+
         itemView.backIcon.setOnClickListener {
             findNavController().navigate(R.id.action_addFragment_to_mainFragment)
         }

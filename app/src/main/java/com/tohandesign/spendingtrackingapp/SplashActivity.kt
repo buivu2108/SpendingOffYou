@@ -2,16 +2,12 @@ package com.tohandesign.spendingtrackingapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.Observer
-import com.tohandesign.spendingtrackingapp.Network.NetworkConnection
-import com.tohandesign.spendingtrackingapp.Retrofit.CurrencyApi
+import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
 

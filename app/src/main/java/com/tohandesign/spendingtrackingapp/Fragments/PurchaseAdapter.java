@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.icon.iconparcel.R;
+import com.tohandesign.spendingtrackingapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
